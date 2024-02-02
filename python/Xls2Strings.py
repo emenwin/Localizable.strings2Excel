@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+from __future__ import print_function
 from optparse import OptionParser
 from XlsFileUtil import XlsFileUtil
 from XmlFileUtil import XmlFileUtil
@@ -54,8 +55,8 @@ def convertFromSingleForm(options, fileDir, targetDir):
                 del values[0]
                 StringsFileUtil.writeToFile(
                     keys, values, targetDir + "/"+languageName+".lproj/", file.replace(".xls", "")+".strings", options.additional)
-    print "Convert %s successfully! you can see strings file in %s" % (
-        fileDir, targetDir)
+    print ("Convert %s successfully! you can see strings file in %s" % (
+        fileDir, targetDir))
 
 
 def convertFromMultipleForm(options, fileDir, targetDir):
@@ -77,22 +78,22 @@ def convertFromMultipleForm(options, fileDir, targetDir):
                 if options.additional is not None:
                     iosFileManager.write(options.additional)
                 iosFileManager.close()
-    print "Convert %s successfully! you can see strings file in %s" % (
-        fileDir, targetDir)
+    print ("Convert %s successfully! you can see strings file in %s" % (
+        fileDir, targetDir))
 
 
 def startConvert(options):
     fileDir = options.fileDir
     targetDir = options.targetDir
 
-    print "Start converting"
+    print ("Start converting")
 
     if fileDir is None:
-        print "xls files directory can not be empty! try -h for help."
+        print ("xls files directory can not be empty! try -h for help.")
         return
 
     if targetDir is None:
-        print "Target file directory can not be empty! try -h for help."
+        print ("Target file directory can not be empty! try -h for help.")
         return
 
     targetDir = targetDir + "/xls-files-to-strings_" + \
