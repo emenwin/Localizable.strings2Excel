@@ -4,7 +4,7 @@ from __future__ import print_function
 import os
 from optparse import OptionParser
 from StringsFileUtil import StringsFileUtil
-import pyExcelerator
+import pyexcelerate
 import time
 
 # Add command option
@@ -49,28 +49,28 @@ def convertToSingleFile(stringsDir, targetDir):
                     fi for fi in filenames if fi.endswith(".strings")]
                 for stringfile in stringsFiles:
                     fileName = stringfile.replace(".strings", "")
-                    filePath = destDir + "/" + fileName + ".xls"
+                    filePath = os.path.join(destDir  , fileName + ".xls")
                     if not os.path.exists(filePath):
-                        workbook = pyExcelerator.Workbook()
-                        ws = workbook.add_sheet(fileName)
+                        workbook = pyexcelerate.Workbook()
+                        ws = workbook.new_sheet(fileName)
                         index = 0
                         for dirname in dirnames:
                             if index == 0:
-                                ws.write(0, 0, 'keyName')
+                                ws.set_cell_value(0, 1, 'keyName')
                             countryCode = dirname.replace(".lproj", "")
-                            ws.write(0, index+1, countryCode)
+                            ws.set_cell_value(0, index+2, countryCode)
 
-                            path = stringsDir+'/' + dirname + '/' + stringfile
+                            path = os.path.join(stringsDir, dirname + '/' + stringfile)
                             (keys, values) = StringsFileUtil.getKeysAndValues(
                                 path)
                             for x in range(len(keys)):
                                 key = keys[x]
                                 value = values[x]
                                 if (index == 0):
-                                    ws.write(x+1, 0, key)
-                                    ws.write(x+1, 1, value)
+                                    ws.set_cell_value(x+1, 1, key)
+                                    ws.set_cell_value(x+1, 2, value)
                                 else:
-                                    ws.write(x+1, index + 1, value)
+                                    ws.set_cell_value(x+1, index + 2, value)
                             index += 1
                         workbook.save(filePath)
     print ("Convert %s successfully! you can see xls file in %s" % (
@@ -89,23 +89,23 @@ def convertToMultipleFiles(stringsDir, targetDir):
     for _, dirnames, _ in os.walk(stringsDir):
         lprojDirs = [di for di in dirnames if di.endswith(".lproj")]
         for dirname in lprojDirs:
-            workbook = pyExcelerator.Workbook()
+            workbook = pyexcelerate.Workbook()
             for _, _, filenames in os.walk(stringsDir+'/'+dirname):
                 stringsFiles = [
                     fi for fi in filenames if fi.endswith(".strings")]
                 for stringfile in stringsFiles:
-                    ws = workbook.add_sheet(stringfile)
+                    ws = workbook.new_sheet(stringfile)
 
-                    path = stringsDir+dirname+'/' + stringfile
+                    path = os.path.join(stringsDir, dirname+'/' + stringfile)
                     (keys, values) = StringsFileUtil.getKeysAndValues(
                         path)
                     for keyIndex in range(len(keys)):
                         key = keys[keyIndex]
                         value = values[keyIndex]
-                        ws.write(keyIndex, 0, key)
-                        ws.write(keyIndex, 1, value)
+                        ws.set_cell_value(keyIndex, 1, key)
+                        ws.set_cell_value(keyIndex, 2, value)
 
-            filePath = destDir + "/" + dirname.replace(".lproj", "") + ".xls"
+            filePath = os.path.join(destDir , dirname.replace(".lproj", "") + ".xls")
             workbook.save(filePath)
 
     print ("Convert %s successfully! you can see xls file in %s" % (

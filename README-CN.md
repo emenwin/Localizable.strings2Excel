@@ -18,7 +18,7 @@ iOS 本地化文件（.strings）与 Excel 互相转换 & android 的 strings.xm
 
 ### 1.检查 python 版本
 
-python 版本必须是 2.x
+python 版本必须 > 2.5
 
 ```
 $ python --version
@@ -39,10 +39,10 @@ curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 sudo python get-pip.py
 ```
 
-### 3.安装 pyexcelerator
+### 3.安装 PyExcelerate
 
 ```
-sudo pip install pyExcelerator
+sudo pip install pyexcelerate
 ```
 
 ### 4.安装 xlrd

@@ -20,11 +20,10 @@ Python command line tool for conversion between iOS strings files and excel file
 
 ### 1.Check python version
 
-python version must be 2.x.
+python version must be >2.6.
 
 ```
 $ python --version
-Python 2.7.10
 ```
 
 ### 2.Check pip(python package manager)
@@ -41,10 +40,10 @@ curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
 sudo python get-pip.py
 ```
 
-### 3.Install pyexcelerator
+### 3.Install PyExcelerate
 
 ```
-sudo pip install pyExcelerator
+sudo pip install pyexcelerate
 ```
 
 ### 4.Install xlrd
