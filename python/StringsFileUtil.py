@@ -34,7 +34,8 @@ class StringsFileUtil:
 
             key = keys[x].strip()
             value = values[x]
-            content = "\"" + key + "\" " + "= " + "\"" + value + "\";\n"
+            content = "\"" + str(key) + "\" " + "= " + "\"" + str(value) + "\";\n"
+            content = content.encode("utf-8")
             fo.write(content)
 
         if additional is not None:

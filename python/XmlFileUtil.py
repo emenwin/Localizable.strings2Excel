@@ -18,6 +18,7 @@ class XmlFileUtil:
         fo = open(directory + "/" + filename, "wb")
 
         stringEncoding = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n"
+        stringEncoding = stringEncoding.encode("utf-8")
         fo.write(stringEncoding)
 
         for x in range(len(keys)):
@@ -27,14 +28,15 @@ class XmlFileUtil:
                 continue
 
             key = keys[x].strip()
-            value = re.sub(r'(%\d\$)(@)', r'\1s', values[x])
-            content = "   <string name=\"" + key + "\">" + value + "</string>\n"
+            value = re.sub(r'(%\d\$)(@)', r'\1s', str(values[x]))
+            content = "   <string name=\"" + str(key) + "\">" + str(value) + "</string>\n"
+            content = content.encode("utf-8")
             fo.write(content)
 
         if additional is not None:
             fo.write(additional)
 
-        fo.write("</resources>")
+        fo.write("</resources>".encode("utf-8"))
         fo.close()
 
     @staticmethod

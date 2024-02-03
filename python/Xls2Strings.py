@@ -39,9 +39,9 @@ def addParser():
 
 def convertFromSingleForm(options, fileDir, targetDir):
     for _, _, filenames in os.walk(fileDir):
-        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls")]
+        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls") and not fi.startswith(".")]
         for file in xlsFilenames:
-            xlsFileUtil = XlsFileUtil(fileDir+"/"+file)
+            xlsFileUtil = XlsFileUtil(os.path.join(fileDir,file))
             table = xlsFileUtil.getTableByIndex(0)
             firstRow = table.row_values(0)
             keys = table.col_values(0)
@@ -61,19 +61,22 @@ def convertFromSingleForm(options, fileDir, targetDir):
 
 def convertFromMultipleForm(options, fileDir, targetDir):
     for _, _, filenames in os.walk(fileDir):
-        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls")]
+        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls") and not fi.startswith(".")]
+        
         for file in xlsFilenames:
-            xlsFileUtil = XlsFileUtil(fileDir+"/"+file)
-            langFolderPath = targetDir + "/" + file.replace(".xls", "")
+            
+            xlsFileUtil = XlsFileUtil(os.path.join(fileDir,file))
+            langFolderPath = os.path.join(targetDir , file.replace(".xls", ""))
             if not os.path.exists(langFolderPath):
                 os.makedirs(langFolderPath)
 
             for sheet in xlsFileUtil.getAllTables():
-                iosDestFilePath = langFolderPath + "/" + sheet.name
+                iosDestFilePath = os.path.join(langFolderPath ,  sheet.name)
                 iosFileManager = open(iosDestFilePath, "wb")
                 for row in sheet.get_rows():
-                    content = "\"" + row[0].value + "\" " + \
-                        "= " + "\"" + row[1].value + "\";\n"
+                    content = "\"" + str(row[0].value) + "\" " + \
+                        "= " + "\"" + str(row[1].value) + "\";\n"
+                    content = content.encode('utf-8')
                     iosFileManager.write(content)
                 if options.additional is not None:
                     iosFileManager.write(options.additional)
@@ -86,6 +89,7 @@ def startConvert(options):
     fileDir = options.fileDir
     targetDir = options.targetDir
 
+    
     print ("Start converting")
 
     if fileDir is None:

@@ -12,8 +12,8 @@ class XlsFileUtil:
     def __init__(self, filePath):
         self.filePath = filePath
         # get all sheets
-        reload(sys)
-        sys.setdefaultencoding('utf-8')
+        #reload(sys)
+        #sys.setdefaultencoding('utf-8')
         self.data = xlrd.open_workbook(filePath)
 
     def getAllTables(self):

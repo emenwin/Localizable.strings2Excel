@@ -39,7 +39,7 @@ def addParser():
 
 def convertFromSingleForm(options, fileDir, targetDir):
     for _, _, filenames in os.walk(fileDir):
-        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls")]
+        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls") and not fi.startswith(".")]
         for file in xlsFilenames:
             xlsFileUtil = XlsFileUtil(fileDir+"/"+file)
             table = xlsFileUtil.getTableByIndex(0)
@@ -69,7 +69,7 @@ def convertFromSingleForm(options, fileDir, targetDir):
 
 def convertFromMultipleForm(options, fileDir, targetDir):
     for _, _, filenames in os.walk(fileDir):
-        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls")]
+        xlsFilenames = [fi for fi in filenames if fi.endswith(".xls") and not fi.startswith(".")]
         for file in xlsFilenames:
             xlsFileUtil = XlsFileUtil(fileDir+"/"+file)
 
